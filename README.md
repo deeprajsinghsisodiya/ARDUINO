@@ -61,7 +61,6 @@ restart ide select the board and port. 9600 bits per second in device manager co
 
 once upload is done disconnect reset and gpio0 from ground. disconnect vcc and reconnect to 3.3v
 
-```
 
 
 
@@ -118,3 +117,6 @@ It checks if the received character is a newline character ('\n'), indicating th
 Connect the TX pin of the ESP8266 to the RX1 pin (pin 19) of the Arduino Mega, and connect the ground (GND) of both devices. Adjust the baud rate (115200 in this case) and pin numbers as needed for your specific hardware configuration.
 
 Note: Ensure that the voltage levels are compatible between the ESP8266 (operating at 3.3V) and the Arduino Mega (which typically operates at 5V). If necessary, use level shifters or voltage dividers to ensure proper communication.
+
+
+```
