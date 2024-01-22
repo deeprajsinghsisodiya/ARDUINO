@@ -47,6 +47,7 @@ AT+CIFSR
 
 #### While connecting esp8266 with arduino 
 
+```
 follow this.
 while uploading reset pin of Arduino should be connected to ground. and gpoi 0 should be connected to ground.
 esp gnd - ar gnd
@@ -60,6 +61,7 @@ restart ide select the board and port. 9600 bits per second in device manager co
 
 once upload is done disconnect reset and gpio0 from ground. disconnect vcc and reconnect to 3.3v
 
+```
 
 
 
