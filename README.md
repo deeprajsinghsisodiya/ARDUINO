@@ -63,6 +63,8 @@ restart ide select the board and port. 9600 bits per second in device manager co
 
 once upload is done disconnect reset and gpio0 from ground. disconnect vcc and reconnect to 3.3v
 
+while uploading when show erroe connect reset pin to groud -tx will blink and try again uploading.
+
 
 
 
