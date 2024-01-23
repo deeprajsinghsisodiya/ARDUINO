@@ -124,3 +124,95 @@ Note: Ensure that the voltage levels are compatible between the ESP8266 (operati
 
 
 ```
+
+
+#### Final code for steeper control esp8266 and mega just to receive value and print
+
+
+```
+#include <ESP8266WiFi.h>
+#include <ESP8266WebServer.h>
+
+const char *ssid = "FTTH-3CD7";
+const char *password = "lovekush";
+
+IPAddress staticIP(192, 168, 1, 100);
+IPAddress gateway(192, 168, 1, 1);
+IPAddress subnet(255, 255, 255, 0);
+
+ESP8266WebServer server(80);
+
+void handleRoot() {
+  String html = "<html><body>";
+  html += "<h1>ESP8266 Web Server</h1>";
+  html += "<form action='/setvalue' method='get'>";
+  html += "Enter value (0-100): <input type='text' name='value'>";
+  html += "<input type='submit' value='Submit'>";
+  html += "</form>";
+  html += "</body></html>";
+  
+  server.send(200, "text/html", html);
+}
+
+void handleValue() {
+  String valueStr = server.arg("value");
+  int value = valueStr.toInt();
+
+  Serial.print("Received value: ");
+  Serial.println(value);
+
+  if (value >= 0 && value <= 100) {
+    Serial.println("Sending value to Arduino Mega");
+    Serial.println(value);  // Sending value as a debug message
+    server.send(200, "text/plain", "Value received successfully");
+  } else {
+    server.send(400, "text/plain", "Invalid value. Please enter a value between 0 and 100.");
+  }
+}
+
+void setup() {
+  Serial.begin(115200);
+
+  WiFi.config(staticIP, gateway, subnet);
+
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(1000);
+    Serial.println("Connecting to WiFi...");
+  }
+  Serial.println("Connected to WiFi");
+ // Print the IP address after successful connection
+  Serial.print("Connected to WiFi. IP Address: ");
+  Serial.println(WiFi.localIP());
+
+  server.on("/", HTTP_GET, handleRoot);
+  server.on("/setvalue", HTTP_GET, handleValue);
+
+  server.begin();
+}
+
+void loop() {
+  server.handleClient();
+  // Add your other code logic here
+}
+
+```
+
+```
+
+void setup() {
+  Serial.begin(115200);    // Serial port for debugging
+  Serial1.begin(115200);   // Serial1 for communication with ESP8266
+}
+
+void loop() {
+  if (Serial1.available() > 0) {
+    int receivedValue = Serial1.parseInt();
+    Serial.print("Received value from ESP8266: ");
+    Serial.println(receivedValue);
+  }
+  
+  // Your other code logic here
+}
+
+```
